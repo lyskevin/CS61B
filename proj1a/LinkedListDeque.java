@@ -27,20 +27,16 @@ public class LinkedListDeque<T> {
     // Adds an item to the front of the deque
     public void addFirst(T item) {
         Node node = new Node(sentinel, item, sentinel.next);
+        sentinel.next.previous = node;
         sentinel.next = node;
-        if (this.isEmpty()) {
-            sentinel.previous = node;
-        }
         size++;
     } // End addFirst
     
     // Adds an item to the back of the deque
     public void addLast(T item) {
         Node node = new Node(sentinel.previous, item, sentinel);
+        sentinel.previous.next = node;
         sentinel.previous = node;
-        if (this.isEmpty()) {
-            sentinel.next = node;
-        }
         size++;
     } // End addLast
     
