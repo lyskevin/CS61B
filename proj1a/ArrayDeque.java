@@ -9,7 +9,7 @@ public class ArrayDeque<T> {
     // Creates an deque (default size is 8)
     // Front and back pointers arbitrarily start from the middle
     public ArrayDeque() {
-        array = new T[8];
+        array = (T[]) new Object[8];
         front = 3;
         back = 4;
         size = 0;
@@ -109,7 +109,7 @@ public class ArrayDeque<T> {
     // Limits the minimum array size to 8
     private void resize(int capacity) {
         if (capacity >= 8) {
-            T[] newArray = new T[capacity];
+            T[] newArray = (T[]) new Object[capacity];
             if (front <= back) { // Array does not loop around
                 System.arraycopy(array, front, newArray, 0, size);
             } else { // Array loops around
