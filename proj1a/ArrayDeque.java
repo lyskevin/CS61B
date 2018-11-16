@@ -63,7 +63,7 @@ public class ArrayDeque<T> {
         if (this.isEmpty()) {
             return null;
         } else {
-            if (size <= array.length / 2) {
+            if (size < array.length / 2) {
                 resize(array.length / 2);
             }
             nextFirst = checkLoop(nextFirst + 1);
@@ -78,7 +78,7 @@ public class ArrayDeque<T> {
         if (this.isEmpty()) {
             return null;
         } else {
-            if (size <= array.length / 2) {
+            if (size < array.length / 2) {
                 resize(array.length / 2);
             }
             nextLast = checkLoop(nextLast - 1);
@@ -106,8 +106,9 @@ public class ArrayDeque<T> {
             
             T[] newArray = (T[]) new Object[capacity];
             int first = checkLoop(nextFirst + 1);
-            System.arraycopy(array, first, newArray, 0, size - first);
-            System.arraycopy(array, 0, newArray, size - first, nextLast);
+            int last = checkLoop(nextLast - 1);
+            System.arraycopy(array, first, newArray, 0, array.length - first);
+            System.arraycopy(array, 0, newArray, size - (array.length - first), last + 1);
             
             // Reset front and back pointers
             array = newArray;
