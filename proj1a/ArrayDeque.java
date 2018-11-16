@@ -116,6 +116,7 @@ public class ArrayDeque<T> {
                 System.arraycopy(array, front, newArray, 0, array.length - front);
                 System.arraycopy(array, 0, newArray, array.length - front, back + 1);
             }
+            
             // Reset front and back pointers
             front = 0;
             back = size;
@@ -125,9 +126,9 @@ public class ArrayDeque<T> {
     
     // Loops the given pointer around the array if necessary
     private int checkLoop(int pointer) {
-        if (pointer == -1) {
+        if (pointer < 0) {
             return size - 1;
-        } else if (pointer == size) {
+        } else if (pointer >= size) {
             return 0;
         } else {
             return pointer;

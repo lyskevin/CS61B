@@ -2,7 +2,7 @@
 
 public class LinkedListDeque<T> {
     
-    // Dictates the behaviour of each of the queue's individual nodes
+    // Dictates the behaviour of each of the deque's individual nodes
     private class Node {
         private T data;
         private Node previous, next;
@@ -120,7 +120,7 @@ public class LinkedListDeque<T> {
     } // End getRecursive
     
     // Returns the item at the given index by searching from the front of the deque
-    public T getRecursiveFront(int index, Node node) {
+    private T getRecursiveFront(int index, Node node) {
         if (index == 0) {
             return node.data;
         } else {
@@ -129,7 +129,7 @@ public class LinkedListDeque<T> {
     } // End getRecursiveFront
     
     // Returns the item at the given index by searching from the back of the deque
-    public T getRecursiveBack(int index, Node node) {
+    private T getRecursiveBack(int index, Node node) {
         if (index == 0) {
             return node.data;
         } else {
