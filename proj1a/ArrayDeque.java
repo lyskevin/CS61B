@@ -1,5 +1,4 @@
 /** Implements a deque using arrays */
-
 public class ArrayDeque<T> {
     
     private T[] array;
@@ -127,7 +126,7 @@ public class ArrayDeque<T> {
     // Loops the given pointer around the array if necessary
     private int checkLoop(int pointer) {
         if (pointer < 0) {
-            return size - 1;
+            return array.length - 1;
         } else if (pointer >= size) {
             return 0;
         } else {
