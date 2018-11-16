@@ -2,15 +2,15 @@
 public class ArrayDeque<T> {
     
     private T[] array;
-    private int front, back;
+    private int nextFirst, nextLast;
     private int size;
     
     // Creates an deque (default size is 8)
     // Front and back pointers arbitrarily start from the middle
     public ArrayDeque() {
         array = (T[]) new Object[8];
-        front = 3;
-        back = 4;
+        nextFirst = 3;
+        nextLast = 4;
         size = 0;
     } // End ArrayDeque constructor
     
@@ -19,8 +19,8 @@ public class ArrayDeque<T> {
         if (size == array.length) {
             resize(size * 2);
         }
-        front = checkLoop(front - 1);
-        array[front] = item;
+        array[nextFirst] = item;
+        nextFirst = checkLoop(nextFirst - 1);
         size++;
     } // End addFirst
     
@@ -29,8 +29,8 @@ public class ArrayDeque<T> {
         if (size == array.length) {
             resize(size * 2);
         }
-        back = checkLoop(back + 1);
-        array[back] = item;
+        array[nextLast] = item;
+        nextLast = checkLoop(nextLast + 1);
         size++;
     } // End addLast
     
@@ -46,7 +46,7 @@ public class ArrayDeque<T> {
     
     // Prints the items in the deque from first to last, separated by a space
     public void printDeque() {
-        int index = front;
+        int index = checkLoop(nextFirst + 1);
         for (int i = 0; i < size; i++) {
             System.out.print(array[index]);
             if (i < size - 1) {
@@ -63,13 +63,12 @@ public class ArrayDeque<T> {
         if (this.isEmpty()) {
             return null;
         } else {
-            T removedItem = array[front];
-            front = checkLoop(front + 1);
-            size--;
             if (size <= array.length / 2) {
                 resize(array.length / 2);
             }
-            return removedItem;
+            nextFirst = checkLoop(nextFirst + 1);
+            size--;
+            return array[nextFirst];
         }
     } // End removeFirst
     
@@ -79,13 +78,12 @@ public class ArrayDeque<T> {
         if (this.isEmpty()) {
             return null;
         } else {
-            T removedItem = array[back];
-            back = checkLoop(back - 1);
-            size--;
             if (size <= array.length / 2) {
                 resize(array.length / 2);
             }
-            return removedItem;
+            nextLast = checkLoop(nextLast - 1);
+            size--;
+            return array[nextLast];
         }
     } // End removeLast
     
@@ -96,10 +94,7 @@ public class ArrayDeque<T> {
         if (index < 0 || index >= size) {
             return null;
         } else {
-            index += front;
-            if (index >= size) {
-                index -= size;
-            }
+            index = checkLoop(index + nextFirst + 1);
             return array[index];
         }
     } // End get
@@ -109,16 +104,16 @@ public class ArrayDeque<T> {
     private void resize(int capacity) {
         if (capacity >= 8) {
             T[] newArray = (T[]) new Object[capacity];
-            if (front <= back) { // Array does not loop around
-                System.arraycopy(array, front, newArray, 0, size);
+            if (nextFirst <= nextLast) { // Array does not loop around
+                System.arraycopy(array, nextFirst + 1, newArray, 0, size);
             } else { // Array loops around
-                System.arraycopy(array, front, newArray, 0, array.length - front);
-                System.arraycopy(array, 0, newArray, array.length - front, back + 1);
+                System.arraycopy(array, nextFirst + 1, newArray, 0, array.length - (nextFirst + 1));
+                System.arraycopy(array, 0, newArray, array.length - (nextFirst + 1), nextLast);
             }
             
             // Reset front and back pointers
-            front = 0;
-            back = size;
+            nextFirst = array.length - 1;
+            nextLast = size;
             array = newArray; 
         }
     } // End resize
@@ -127,7 +122,7 @@ public class ArrayDeque<T> {
     private int checkLoop(int pointer) {
         if (pointer < 0) {
             return array.length - 1;
-        } else if (pointer >= size) {
+        } else if (pointer >= array.length) {
             return 0;
         } else {
             return pointer;
