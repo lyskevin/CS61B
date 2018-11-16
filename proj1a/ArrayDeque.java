@@ -103,18 +103,16 @@ public class ArrayDeque<T> {
     // Limits the minimum array size to 8
     private void resize(int capacity) {
         if (capacity >= 8) {
+            
             T[] newArray = (T[]) new Object[capacity];
-            if (nextFirst <= nextLast) { // Array does not loop around
-                System.arraycopy(array, nextFirst + 1, newArray, 0, size);
-            } else { // Array loops around
-                System.arraycopy(array, nextFirst + 1, newArray, 0, array.length - (nextFirst + 1));
-                System.arraycopy(array, 0, newArray, array.length - (nextFirst + 1), nextLast);
-            }
+            int first = checkLoop(nextFirst + 1);
+            System.arraycopy(array, first, newArray, 0, size - first);
+            System.arraycopy(array, 0, newArray, size - first, nextLast);
             
             // Reset front and back pointers
+            array = newArray;
             nextFirst = array.length - 1;
             nextLast = size;
-            array = newArray; 
         }
     } // End resize
     
