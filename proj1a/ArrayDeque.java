@@ -79,7 +79,7 @@ public class ArrayDeque<T> {
         if (this.isEmpty()) {
             return null;
         } else {
-            int halfCapacity = array.length / 2;;
+            int halfCapacity = array.length / 2;
             if (size < halfCapacity && halfCapacity >= 8) {
                 resize(array.length / 2);
             }
