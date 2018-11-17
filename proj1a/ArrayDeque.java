@@ -126,7 +126,7 @@ public class ArrayDeque<T> {
     // Loops the given pointer around the array if necessary
     private int checkLoop(int pointer) {
         if (pointer < 0) {
-            return array.length - pointer;
+            return array.length + pointer;
         } else if (pointer >= array.length) {
             return pointer - array.length;
         } else {
