@@ -63,7 +63,8 @@ public class ArrayDeque<T> {
         if (this.isEmpty()) {
             return null;
         } else {
-            if (size < array.length / 2) {
+            int halfCapacity = array.length / 2;
+            if (size < halfCapacity && halfCapacity >= 8) {
                 resize(array.length / 2);
             }
             nextFirst = checkLoop(nextFirst + 1);
@@ -78,7 +79,8 @@ public class ArrayDeque<T> {
         if (this.isEmpty()) {
             return null;
         } else {
-            if (size < array.length / 2) {
+            int halfCapacity = array.length / 2;;
+            if (size < halfCapacity && halfCapacity >= 8) {
                 resize(array.length / 2);
             }
             nextLast = checkLoop(nextLast - 1);
@@ -99,22 +101,36 @@ public class ArrayDeque<T> {
         }
     } // End get
     
+    /*
+     * Invariants:
+     * 1. Always copy "size" number of elements to the new array
+     * 2. The elements to copy must be ordered from "first" (nextFirst + 1, looped)
+     *    to "last" (nextLast - 1, looped)
+     * 3. If first is smaller than last, then copy the elements from first to last.
+     * 4. Else, copy the elements from first to the end of the array, then copy the
+     *    remaining elements from the start of the array until last (array loops around)
+     */
+    
     // Resizes the array to the given capacity
     // Limits the minimum array size to 8
     private void resize(int capacity) {
-        if (capacity >= 8) {
             
             T[] newArray = (T[]) new Object[capacity];
             int first = checkLoop(nextFirst + 1);
             int last = checkLoop(nextLast - 1);
-            System.arraycopy(array, first, newArray, 0, array.length - first);
-            System.arraycopy(array, 0, newArray, size - (array.length - first), last + 1);
+            
+            if (first <= last) { // Array does not loop around
+                System.arraycopy(array, first, newArray, 0, size);
+            } else { // Array loops around
+                System.arraycopy(array, first, newArray, 0, array.length - first);
+                System.arraycopy(array, 0, newArray, array.length - first, nextLast);
+            }
             
             // Reset front and back pointers
             array = newArray;
             nextFirst = array.length - 1;
             nextLast = size;
-        }
+            
     } // End resize
     
     // Loops the given pointer around the array if necessary
