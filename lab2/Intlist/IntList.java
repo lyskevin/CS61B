@@ -83,7 +83,9 @@ public class IntList {
     public static IntList dcatenate(IntList A, IntList B) {
 
         /** Recursive */
-        if (B != null) {
+        if (A == null) {
+            return B;
+        } else if (B != null) {
             if (A.rest == null) {
                 A.rest = B;
             } else {
