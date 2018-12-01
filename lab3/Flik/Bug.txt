@@ -1,0 +1,1 @@
+Integer values (primitive int) between 0 and 127 are stored in the same memory address, while 128 and above are stored in different memory addresses, presumably because of memory  and bit allocation.

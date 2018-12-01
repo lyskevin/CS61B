@@ -6,5 +6,6 @@ public class HorribleSteve {
                 break; // break exits the for loop!
             }
         }
+        System.out.println("i is " + i);
     }
 }
