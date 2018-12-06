@@ -22,14 +22,6 @@ public class Palindrome {
     } /** End isPalindrome */
 
     /**
-     * Returns true if the given word is a palindrome, else false
-     * @param wordDeque
-     */
-    public boolean isPalindrome(Deque wordDeque) {
-        return isPalindromeRecursive(wordDeque);
-    } /** End isPalindrome */
-
-    /**
      * Returns true if the given word is a palindrome according to
      * the character comparison test provided by the Character
      * Comparator passed in as an argument, else false
