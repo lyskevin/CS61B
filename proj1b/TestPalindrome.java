@@ -21,5 +21,10 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("noon"));
         assertFalse(palindrome.isPalindrome("apple"));
         assertTrue(palindrome.isPalindrome("a"));
+
+        OffByOne obo = new OffByOne();
+        assertTrue(palindrome.isPalindrome("flake", obo));
+        assertFalse(palindrome.isPalindrome("noon", obo));
+        assertFalse(palindrome.isPalindrome("aba", obo));
     }
 }
