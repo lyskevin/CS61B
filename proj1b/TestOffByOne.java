@@ -19,7 +19,7 @@ public class TestOffByOne {
 
     @Test
     public void testIsPalindrome() {
-        Palindrome palindrome = new palindrome();
+        Palindrome palindrome = new Palindrome();
         assertTrue(palindrome.isPalindrome("flake", offByOne));
         assertTrue(palindrome.isPalindrome("nam", offByOne));
         assertFalse(palindrome.isPalindrome("hello", offByOne));
