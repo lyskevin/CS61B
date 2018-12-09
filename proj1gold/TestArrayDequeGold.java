@@ -29,9 +29,6 @@ public class TestArrayDequeGold {
                 expected = deque.removeFirst();
                 actual = studentDeque.removeFirst();
                 errorMessage += "removeFirst()\n";
-                /*"Test failed!\nremoveFirst() should return " +
-                        expected + " but returned " + actual +
-                        " instead.\n";*/
                 assertEquals(errorMessage, expected, actual);
             } else {
                 expected = deque.removeLast();
