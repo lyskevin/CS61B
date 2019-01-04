@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * Implements an array ring buffer.
  */
-public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Iterable<T> {
+public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 //
     private int first; // Index for the next dequeue or peek
     private int last; // Index for the next enqueue
@@ -83,6 +83,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Itera
     /**
      * Allows for instances of ArrayRingBuffer to be iterated through.
      */
+    @Override
     public Iterator<T> iterator() {
         return new ArrayRingBufferIterator();
     } // End iterator
