@@ -80,8 +80,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Itera
         }
     } // End wrapAroundIfNecessary
 
-    // TODO: When you get to part 5, implement the needed code to support iteration.
-
     /**
      * Allows for instances of ArrayRingBuffer to be iterated through.
      */
