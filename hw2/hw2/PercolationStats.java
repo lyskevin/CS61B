@@ -16,10 +16,13 @@ public class PercolationStats {
 
     // Perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
-        system = pf.make(N);
+        if (N <= 0 || T <= 0) {
+            throw new IllegalArgumentException("N and T should both be > 0");
+        }
         percolationThresholds = new double[T];
         for (int i = 0; i < T; i++) {
-            percolationThresholds[i] = computePercolationThreshold(N, system);
+            system = pf.make(N);
+            percolationThresholds[i] = computePercolationThreshold(N);
         }
         mean = StdStats.mean(percolationThresholds);
         standardDeviation = StdStats.stddev(percolationThresholds);
@@ -47,14 +50,14 @@ public class PercolationStats {
     } // End confidenceHigh
 
     // Computes the percolation threshold for a given grid of size N
-    private double computePercolationThreshold(int N, Percolation system) {
-        while(!system.percolates()) {
+    private double computePercolationThreshold(int N) {
+        while (!system.percolates()) {
             int randomSite = StdRandom.uniform(N * N);
             int rowToOpen = randomSite / N;
             int colToOpen = randomSite % N;
             system.open(rowToOpen, colToOpen);
         }
-        return system.numberOfOpenSites() * 1.0 / N;
+        return system.numberOfOpenSites() * 1.0 / (N * N);
     } // End computePercolationThreshold
 
 } // End PercolationStats class

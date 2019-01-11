@@ -37,12 +37,12 @@ public class Percolation {
         siteStatus = new int[N][N];
         for (int row = 0; row < N; row++) {
             for (int col = 0; col < N; col++) {
+                siteStatus[row][col] = 0;
                 if (row == 0) { // Top row site
-                    siteStatus[row][col] = 2;
-                } else if (row == N - 1) { // Bottom row site
-                    siteStatus[row][col] = 4;
-                } else { // All other sites
-                    siteStatus[row][col] = 0;
+                    siteStatus[row][col] |= 2;
+                }
+                if (row == N - 1) { // Bottom row site
+                    siteStatus[row][col] |= 4;
                 }
             }
         }
@@ -91,7 +91,7 @@ public class Percolation {
             if (topRow >= 0 && isOpen(topRow, col)) {
                 int topSite = rowAndColToInt(topRow, col);
                 if (!grid.connected(site, topSite)) {
-                    grid.union(site,topSite);
+                    grid.union(site, topSite);
                     updateConnections(topRow, col, row, col);
                 }
             }
@@ -130,6 +130,11 @@ public class Percolation {
     } // End isOpen
 
     // Is the site (row, col) full?
+
+    /**
+     * 011 3
+     * 111 7
+     */
     public boolean isFull(int row, int col) {
         if ((row < 0 || row >= N) || (col < 0 || col >= N)) {
             throw new IndexOutOfBoundsException("Invalid row or col index");
@@ -197,8 +202,8 @@ public class Percolation {
         if (!(site1Row == site2Row && site1Col == site2Col)) {
 
             // Update connection to grid's top row
-            if (siteStatus[site1Row][site1Col] % 4 == 2 ||
-                siteStatus[site1Row][site1Col] % 4 == 3) {
+            if (siteStatus[site1Row][site1Col] % 4 == 2
+                || siteStatus[site1Row][site1Col] % 4 == 3) {
                 siteStatus[site2Row][site2Col] |= 2;
             }
 
@@ -213,13 +218,10 @@ public class Percolation {
 
     // Runs some unit tests
     public static void main(String[] args) {
-        Percolation system = new Percolation(4);
+        Percolation system = new Percolation(2);
         system.open(0, 1);
+        system.open(1, 0);
         system.open(1, 1);
-        system.open(2, 1);
-        system.open(3, 1);
-        system.open(3, 3);
-        system.open(2, 3);
         system.printGrid();
     } // End main
 
