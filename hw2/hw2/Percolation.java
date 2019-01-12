@@ -53,7 +53,7 @@ public class Percolation {
 
     // Open the site (row, col) if it is not open
     public void open(int row, int col) {
-
+        
         if ((row < 0 || row >= N) || (col < 0 || col >= N)) {
             throw new IndexOutOfBoundsException("Invalid row or col index");
         }
@@ -124,7 +124,7 @@ public class Percolation {
             if (leftConnected) {
                 updateConnections(rootRow, rootCol, row, leftCol);
             }
-            if(rightConnected) {
+            if (rightConnected) {
                 updateConnections(rootRow, rootCol, row, rightCol);
             }
             if (topConnected) {
