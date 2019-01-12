@@ -65,10 +65,15 @@ public class Percolation {
             siteStatus[row][col] |= 1;
             numOpenSites++;
             int site = rowAndColToInt(row, col);
+            boolean leftConnected = false;
+            boolean rightConnected = false;
+            boolean topConnected = false;
+            boolean bottomConnected = false;
 
             // Connect left site if necessary
             int leftCol = col - 1;
             if (leftCol >= 0 && isOpen(row, leftCol)) {
+                leftConnected = true;
                 int leftSite = rowAndColToInt(row, leftCol);
                 if (!grid.connected(site, leftSite)) {
                     grid.union(site, leftSite);
@@ -79,6 +84,7 @@ public class Percolation {
             // Connect right site if necessary
             int rightCol = col + 1;
             if (rightCol < N && isOpen(row, rightCol)) {
+                rightConnected = true;
                 int rightSite = rowAndColToInt(row, rightCol);
                 if (!grid.connected(site, rightSite)) {
                     grid.union(site, rightSite);
@@ -89,6 +95,7 @@ public class Percolation {
             // Connect top site if necessary
             int topRow = row - 1;
             if (topRow >= 0 && isOpen(topRow, col)) {
+                topConnected = true;
                 int topSite = rowAndColToInt(topRow, col);
                 if (!grid.connected(site, topSite)) {
                     grid.union(site, topSite);
@@ -99,6 +106,7 @@ public class Percolation {
             // Connect bottom site if necessary
             int bottomRow = row + 1;
             if (bottomRow < N && isOpen(bottomRow, col)) {
+                bottomConnected = true;
                 int bottomSite = rowAndColToInt(bottomRow, col);
                 if (!grid.connected(site, bottomSite)) {
                     grid.union(site, bottomSite);
@@ -111,6 +119,20 @@ public class Percolation {
             int rootRow = intToRow(rootSite);
             int rootCol = intToCol(rootSite);
             updateConnections(row, col, rootRow, rootCol);
+
+            // Update surrounding sites according to root
+            if (leftConnected) {
+                updateConnections(rootRow, rootCol, row, leftCol);
+            }
+            if(rightConnected) {
+                updateConnections(rootRow, rootCol, row, rightCol);
+            }
+            if (topConnected) {
+                updateConnections(rootRow, rootCol, topRow, col);
+            }
+            if (bottomConnected) {
+                updateConnections(rootRow, rootCol, bottomRow, col);
+            }
 
             // Check if the system has percolated
             if (siteStatus[rootRow][rootCol] == 7) {
@@ -130,11 +152,6 @@ public class Percolation {
     } // End isOpen
 
     // Is the site (row, col) full?
-
-    /**
-     * 011 3
-     * 111 7
-     */
     public boolean isFull(int row, int col) {
         if ((row < 0 || row >= N) || (col < 0 || col >= N)) {
             throw new IndexOutOfBoundsException("Invalid row or col index");
@@ -162,11 +179,11 @@ public class Percolation {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (isFull(i, j)) {
-                    System.out.print(2 + " ");
+                    System.out.print('F' + " ");
                 } else if (isOpen(i, j)) {
-                    System.out.print(1 + " ");
+                    System.out.print('O' + " ");
                 } else {
-                    System.out.print(0 + " ");
+                    System.out.print('C' + " ");
                 }
             }
             System.out.println();
@@ -218,10 +235,13 @@ public class Percolation {
 
     // Runs some unit tests
     public static void main(String[] args) {
-        Percolation system = new Percolation(2);
-        system.open(0, 1);
+        Percolation system = new Percolation(3);
+        system.open(0, 0);
         system.open(1, 0);
+        system.open(1, 2);
+        system.open(2, 2);
         system.open(1, 1);
+        system.isFull(2, 2);
         system.printGrid();
     } // End main
 
