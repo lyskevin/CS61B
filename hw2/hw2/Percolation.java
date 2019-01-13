@@ -138,7 +138,8 @@ public class Percolation {
             }
 
             /** Check if the system percolates */
-            if (siteStatus[rootRow][rootCol] == 7) {
+            if (siteStatus[rootRow][rootCol] == 7
+                || siteStatus[row][col] == 7) {
                 hasPercolated = true;
             }
 
@@ -271,7 +272,7 @@ public class Percolation {
                                    int site2Row, int site2Col) {
 
         if (isValid(site1Row) && isValid(site1Col)
-                && isValid(site2Row) && isValid(site2Col)) {
+            && isValid(site2Row) && isValid(site2Col)) {
 
             /** Check that site 1 is not the same as site 2 */
             if (!(site1Row == site2Row && site1Col == site2Col)) {
