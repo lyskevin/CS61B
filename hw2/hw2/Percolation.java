@@ -88,7 +88,7 @@ public class Percolation {
             /** Connect left site if necessary */
             int leftCol = col - 1;
             if (isValid(leftCol) && isOpen(row, leftCol)) {
-                connectSites(row, col, row, col - 1);
+                connectSites(row, col, row, leftCol);
                 updateConnections(row, leftCol, row, col);
                 leftConnected = true;
             }
@@ -193,7 +193,15 @@ public class Percolation {
 
     /** Runs some unit tests */
     public static void main(String[] args) {
-
+        Percolation system = new Percolation(4);
+        system.open(0, 1);
+        system.open(1, 1);
+        system.open(1, 2);
+        system.open(2, 1);
+        system.open(3, 3);
+        system.open(3, 2);
+        system.open(2, 2);
+        System.out.println(system.percolates());
     } /** End main */
 
     /**************************** Helper Methods ****************************/
@@ -270,7 +278,7 @@ public class Percolation {
 
                 /** Update connection to grid's top row */
                 if (siteStatus[site1Row][site1Col] % 4 == 2
-                        || siteStatus[site1Row][site1Col] % 4 == 3) {
+                    || siteStatus[site1Row][site1Col] % 4 == 3) {
                     siteStatus[site2Row][site2Col] |= 2;
                 }
 
